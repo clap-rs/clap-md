@@ -1,0 +1,14 @@
+[package]
+name = "clap-md"
+version = "0.1.0"
+authors = ["Pascal Hertleif <killercup@gmail.com>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/rust-clique/clap-md"
+documentation = "https://docs.rs/clap-md"
+description = "Generate Markdown documentation for clap application definitions"
+readme = "README.md"
+
+[dependencies]
+clap = { git = "https://github.com/kbknapp/clap-rs", branch = "v3-dev" }
+pulldown-cmark = "0.1.2"
+pulldown-cmark-to-cmark = "1.1.0"

@@ -7,7 +7,7 @@ use clap::{App, AppSettings, Arg, SubCommand};
 use clap_md::app_to_md;
 
 fn main() {
-  let a = App::new("testapp")
+    let a = App::new("testapp")
     .about("Pointless application")
     .setting(AppSettings::SubcommandRequiredElseHelp)
     .author("Katharina Fey <kookie@spacekookie.de>")
@@ -17,6 +17,6 @@ fn main() {
     .arg(Arg::with_name("output").short("o").takes_value(true).help("Output File"))
     .subcommand(SubCommand::with_name("foo").arg(Arg::with_name("bar").short("b").long("barr")));
 
-  let markdown = app_to_md(&a, 1).unwrap();
-  println!("{}", markdown);
+    let markdown = app_to_md(&a, 1).unwrap();
+    println!("{}", markdown);
 }

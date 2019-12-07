@@ -3,18 +3,12 @@ rust:
 - beta
 - stable
 - nightly
-matrix:
-  include:
-  - rust: nightly-2018-07-22
-    env: CLIPPY=YESPLEASE
-    script:
-    - rustup component add clippy-preview
-    - cargo clippy -- -D warnings
-  - rust: 1.27.2
-    env: RUSTFMT=YESPLEASE
-    script:
-    - rustup component add rustfmt-preview
-    - cargo fmt --all -- --write-mode=diff
+
+script:
+- cargo fmt --all -- --write-mode=diff
+- cargo build --all --all-features
+- cargo test --all --all-features
+
 notifications:
   email:
     on_success: never

@@ -9,6 +9,7 @@ use clap_md::app_to_md;
 fn main() {
     let a = Command::new("testapp")
     .about("Pointless application")
+    .arg_required_else_help(true)
     .subcommand_required(true)
     .author("Katharina Fey <kookie@spacekookie.de>")
     .long_about("Lorem Ipsum bla bla bla")
@@ -16,6 +17,6 @@ fn main() {
     .arg(Arg::new("output").short('o').takes_value(true).help("Output File"))
     .subcommand(Command::new("foo").arg(Arg::new("bar").short('b').long("barr")));
 
-    let markdown = app_to_md(&a, 1).unwrap();
+    let markdown = app_to_md(a, 1).unwrap();
     println!("{}", markdown);
 }

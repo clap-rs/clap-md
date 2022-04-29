@@ -44,7 +44,7 @@ fn recursive(doc: &mut Document, app: &Command, level: i32, skip_header: bool) {
     if let Some(author) = app.get_author() {
         doc.paragraph(format!("Author: {}", author));
     }
-    if let Some(version) = app.get_version() {
+    if let Some(version) = app.get_version().or_else(|| app.get_long_version()) {
         doc.paragraph(format!("Version: {}", version));
     }
 
@@ -71,7 +71,7 @@ fn recursive(doc: &mut Document, app: &Command, level: i32, skip_header: bool) {
 
             if arg.is_takes_value_set() {
                 def.push_str("=<");
-                def.push_str(arg.get_id());
+                def.push_str(arg.get_value_names().unwrap().join(",").as_str());
                 def.push_str(">");
             }
 
@@ -84,7 +84,7 @@ fn recursive(doc: &mut Document, app: &Command, level: i32, skip_header: bool) {
                 }
                 text.push_str(help);
             }
-            
+
             doc.0.push(Event::Text(text.into()));
 
             doc.0.push(Event::End(Tag::Paragraph));
@@ -111,9 +111,9 @@ fn recursive(doc: &mut Document, app: &Command, level: i32, skip_header: bool) {
 /// - `level`: The level for first markdown headline. If you for example want to
 ///     render this beneath a `## Usage` headline in your readme, you'd want to
 ///     set `level` to `2`.
-pub fn app_to_md<'a, 'b>(app: &Command, level: i32) -> Result<String, Box<dyn std::error::Error>> {
+pub fn app_to_md(app: Command, level: i32) -> Result<String, Box<dyn std::error::Error>> {
     let mut document = Document(Vec::new());
-    recursive(&mut document, app, level, level > 1);
+    recursive(&mut document, &app, level, level > 1);
     let mut result = String::new();
     cmark(document.0.iter(), &mut result)?;
     Ok(result)
